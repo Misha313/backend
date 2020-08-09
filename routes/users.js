@@ -11,12 +11,11 @@ usersRouter.get('/users/:id', (req, res) => {
       const users = JSON.parse(data);
       const { id } = req.params;
       // eslint-disable-next-line no-underscore-dangle
-      const user = users.filter((item) => item._id === id);
-      if (user.length === 0) {
-        res.status(404);
-        res.send({ message: 'Нет пользователя с таким id' });
-      }
-      res.send(user[0]);
+      const user = users.find((item) => item._id === id);
+      res.send(user);
+    })
+    .catch(() => {
+      res.status(500).send({ message: 'Внутренняя ошибка сервера' });
     });
 });
 
@@ -26,8 +25,7 @@ usersRouter.get('/users', (req, res) => {
       res.send(data);
     })
     .catch(() => {
-      res.status(500);
-      res.send({ message: 'Внутренняя ошибка сервера' });
+      res.status(500).send({ message: 'Внутренняя ошибка сервера' });
     });
 });
 

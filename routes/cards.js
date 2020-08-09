@@ -8,7 +8,8 @@ const cardsPath = path.join(__dirname, '../data/cards.json');
 cardsRouter.get('/cards', (req, res) => {
   fsPromises.readFile(cardsPath, { encoding: 'utf8' })
     .then((data) => {
-      res.send(data);
+      const cards = JSON.parse(data);
+      res.send(cards);
     })
     .catch(() => {
       res.status(500);
