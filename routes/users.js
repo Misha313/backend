@@ -14,8 +14,9 @@ usersRouter.get('/users/:id', (req, res) => {
       const user = users.find((item) => item._id === id);
       if (!user) {
         res.status(404).send({ message: 'пользователь с данным id не найден' });
+      } else {
+        res.send(user);
       }
-      res.send(user);
     })
     .catch((err) => {
       res.status(500).send({ message: err.message });
