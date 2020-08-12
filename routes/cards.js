@@ -11,9 +11,9 @@ cardsRouter.get('/cards', (req, res) => {
       const cards = JSON.parse(data);
       res.send(cards);
     })
-    .catch(() => {
+    .catch((err) => {
       res.status(500);
-      res.send({ message: 'Внутренняя ошибка сервера' });
+      res.send({ message: err.message });
     });
 });
 

@@ -12,20 +12,24 @@ usersRouter.get('/users/:id', (req, res) => {
       const { id } = req.params;
       // eslint-disable-next-line no-underscore-dangle
       const user = users.find((item) => item._id === id);
+      if (!user) {
+        res.status(404).send({ message: 'пользователь с данным id не найден' });
+      }
       res.send(user);
     })
-    .catch(() => {
-      res.status(500).send({ message: 'Внутренняя ошибка сервера' });
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
     });
 });
 
 usersRouter.get('/users', (req, res) => {
   fsPromises.readFile(usersPath, { encoding: 'utf8' })
     .then((data) => {
-      res.send(data);
+      const users = JSON.parse(data);
+      res.send(users);
     })
-    .catch(() => {
-      res.status(500).send({ message: 'Внутренняя ошибка сервера' });
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
     });
 });
 
